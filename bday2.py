@@ -327,7 +327,7 @@ def piano_puzzle():
         if st.session_state.last_played_note:
             st.markdown(f"**Last Played:** {st.session_state.last_played_note}")
 
-    # Check if the last 4 notes match the target melody
+    # Check if the notes match the target melody
     if len(st.session_state.played_notes) >= len(TARGET_MELODY):
         last_n_notes = st.session_state.played_notes[-len(TARGET_MELODY):]
         
@@ -335,6 +335,30 @@ def piano_puzzle():
             st.session_state.reward_unlocked = True
             st.success("🎉 You played it perfectly! Unlocking your surprise...")
             st.rerun()  # Rerun to show the reward
+        else:
+            # Check for correct melody in wrong octave
+            def strip_octave(note):
+                return note[:-1]  # Removes the last character (octave number)
+            
+            def get_octave(note):
+                return int(note[-1])  # Get the octave number
+            
+            stripped_last_n = [strip_octave(n) for n in last_n_notes]
+            stripped_target = [strip_octave(n) for n in TARGET_MELODY]
+            
+            if stripped_last_n == stripped_target:
+                # Determine which octave they played in vs which they should play in
+                played_octave = get_octave(last_n_notes[0])
+                target_octave = get_octave(TARGET_MELODY[0])
+                
+                if played_octave < target_octave:
+                    st.warning(f"🎵 You're playing the right tune — but try going higher! You played in octave {played_octave}, but the melody is in octave {target_octave}.")
+                elif played_octave > target_octave:
+                    st.warning(f"🎵 You're playing the right tune — but try going lower! You played in octave {played_octave}, but the melody is in octave {target_octave}.")
+                else:
+                    # This shouldn't happen normally since we check exact match first
+                    st.warning("🎵 You're playing the right notes, but something's not quite right. Try again!")
+
 
     # Display hint if they've made several attempts
     if len(st.session_state.played_notes) > 8 and not st.session_state.reward_unlocked:
