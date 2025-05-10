@@ -367,7 +367,7 @@ def piano_puzzle():
 # Main app logic
 def main():
     st.set_page_config(layout="wide")
-    st.title("🎂 Birthday Surprise")
+    st.title("🎂 Birthday Surprise for My Mooncakes!!")
     
     # Delay before showing reward
     if "reward_unlocked" in st.session_state and st.session_state.reward_unlocked:
