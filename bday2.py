@@ -122,8 +122,8 @@ def show_slideshow():
     </script>
     """
 
-    st.components.v1.html(full_html, height=600)
-
+    st.components.v1.html(full_html, height=1200)
+    
 def show_letter():
     # 1) Read the letter with actual newlines
     with open("letter.txt", "r", encoding="utf-8") as f:
@@ -205,24 +205,27 @@ def show_letter():
     """
     
     st.components.v1.html(html, height=1800, scrolling=True)
-
+    
 def show_reward():
     st.markdown("## 🎉 You've unlocked your surprise! Happy Birthday babyyyyy! 🎉", unsafe_allow_html=True)
     st.balloons()
 
-    # --- Display Letter ---
-    st.markdown("### 💌 A Birthday Letter for You")
-    show_letter()
+    col1, col2 = st.columns([1, 1])
 
-    # --- Play Audio ---
-    st.markdown("### 🎧 A Message From Your Victor")
-    audio_file = open("tuyo.mp3", "rb")
-    st.audio(audio_file.read(), format="audio/mp3", loop=True,autoplay=True)
+    with col1:
+        # --- Display Letter ---
+        st.markdown("### 💌 A Birthday Letter for You")
+        show_letter()
 
-    # --- Slideshow ---
-    # inside show_reward
-    st.markdown("### 📸 A Few Fun Memories")
-    show_slideshow()
+    with col2:
+        # --- Play Audio ---
+        st.markdown("### 🎧 A Message From Your Victor")
+        audio_file = open("tuyo.mp3", "rb")
+        st.audio(audio_file.read(), format="audio/mp3", loop=True, autoplay=True)
+
+        # --- Slideshow ---
+        st.markdown("### 📸 A Few Fun Memories")
+        show_slideshow()
 
 def play_audio(note):
     """Play a note audio file and return appropriate HTML."""
