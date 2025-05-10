@@ -195,7 +195,7 @@ def show_letter():
         charIndex++;
         
         // Schedule the next character
-        setTimeout(typeWriter, 25);
+        setTimeout(typeWriter, 35);
       }}
       
       // Start the typewriter effect
